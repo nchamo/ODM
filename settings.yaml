@@ -64,3 +64,9 @@ project_path: '/' # Example: '/home/user/ODMProjects'
 #pc-classify: none
 #force_gps: False
 #rectify: False
+#rectify_reclassification_method: 'median'
+#rectify_reclassify_threshold: 5
+#rectify_extension_method: 'surrounding'
+#rectify_extend_grid_distance: 5
+#rectify_min_area: 750
+#rectify_min_points: 500

@@ -753,7 +753,58 @@ def config(argv=None, parser=None):
                     default=False,
                     help=('Perform ground rectification on the point cloud. This means that wrongly classified ground '
                           'points will be re-classified and gaps will be filled. Useful for generating DTMs. '
+                          'Default: %(default)s')
+    parser.add_argument('--pc-rectify-reclassification-method',
+                    metavar='<string>',
+                    action=StoreValue,
+                    default='median',
+                    choices=['one', 'uniform', 'median', 'surrounding'],
+                    help=('Partition algorithm to use when reclassifiyng ground points. '
                           'Default: %(default)s'))
+
+    parser.add_argument('--pc-rectify-reclassify-threshold',
+                    type=float,
+                    action=StoreValue,
+                    metavar='<positive float>',
+                    default=5,
+                    help=('Cloud points that are further than this distance (in meters) '
+                          'from the best fitting plane of the partition, will be reclassified as "not ground". '
+                          'Default: %(default)s'))
+
+    parser.add_argument('--pc-rectify-extension-method',
+                    metavar='<string>',
+                    action=StoreValue,
+                    default='surrounding',
+                    choices=['one', 'uniform', 'median', 'surrounding'],
+                    help=('Partition algorithm to use when extending ground points. '
+                          'Default: %(default)s'))
+
+    parser.add_argument('--pc-rectify-extend-grid-distance',
+                    type=float,
+                    action=StoreValue,
+                    metavar='<positive float>',
+                    default=5,
+                    help=('New ground points will be located in areas where there are no neighbors closer than '
+                          'this distance (in meters). '
+                          'Default: %(default)s'))
+
+    parser.add_argument('--pc-rectify-min-area',
+                        metavar='<integer>',
+                        action=StoreValue,
+                        default=750,
+                        type=int,
+                        help='Stopping criteria used in some partition methods. Partitions will be required to have '
+                             'an area of this value or more (measured in squared meters). '
+                             'Default:  %(default)s')
+
+    parser.add_argument('--pc-rectify-min-points',
+                        metavar='<integer>',
+                        action=StoreValue,
+                        default=500,
+                        type=int,
+                        help='Stopping criteria used in some partition methods. Partitions will be required to have '
+                             'at least this number of cloud points. '
+                             'Default:  %(default)s')
 
     args = parser.parse_args(argv)
 

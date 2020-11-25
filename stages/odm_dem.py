@@ -72,12 +72,12 @@ class ODMDEMStage(types.ODM_Stage):
                     f.write('Slope: {}\n'.format(args.smrf_slope))
                     f.write('Threshold: {}\n'.format(args.smrf_threshold))
                     f.write('Window: {}\n'.format(args.smrf_window))
-            
+
         progress = 20
         self.update_progress(progress)
 
         if args.pc_rectify:
-            commands.rectify(dem_input, args.debug)
+            commands.rectify(dem_input, args.debug, args.pc_rectify_reclassification_method, args.pc_rectify_reclassify_threshold, args.pc_rectify_extension_method, args.pc_rectify_extend_grid_distance, args.pc_rectify_min_area, args.pc_rectify_min_points)
 
         # Do we need to process anything here?
         if (args.dsm or args.dtm) and pc_model_found:

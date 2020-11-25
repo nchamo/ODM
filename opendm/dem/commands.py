@@ -33,7 +33,7 @@ def classify(lasFile, scalar, slope, threshold, window, verbose=False):
     log.ODM_INFO('Created %s in %s' % (os.path.relpath(lasFile), datetime.now() - start))
     return lasFile
 
-def rectify(lasFile, debug=False, reclassify_threshold=5, min_area=750, min_points=500):
+def rectify(lasFile, debug=False, reclassification_method='median', reclassify_threshold=5, extension_method='surrounding', extend_grid_distance=5, min_area=750, min_points=500):
     start = datetime.now()
 
     try:
@@ -50,11 +50,11 @@ def rectify(lasFile, debug=False, reclassify_threshold=5, min_area=750, min_poin
         ]
         system.run(' '.join(cmd))
 
-        log.ODM_INFO("Rectifying {} using with [reclassify threshold: {}, min area: {}, min points: {}]".format(lasFile, reclassify_threshold, min_area, min_points))
+        log.ODM_INFO("Rectifying {} using with [reclassification method: {}, reclassify threshold: {}, extension method: {}, extend grid distance:{}, min area: {}, min points: {}]".format(lasFile, reclassification_method, reclassify_threshold, extension_method, extend_grid_distance, min_area, min_points))
         run_rectification(
             input=tempLasFile, output=tempLasFile, debug=debug, \
-            reclassify_plan='median', reclassify_threshold=reclassify_threshold, \
-            extend_plan='surrounding', extend_grid_distance=5, \
+            reclassify_plan=reclassification_method, reclassify_threshold=reclassify_threshold, \
+            extend_plan=extension_method, extend_grid_distance=extend_grid_distance, \
             min_area=min_area, min_points=min_points)
 
         # Convert LAS to LAZ
